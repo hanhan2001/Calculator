@@ -9,6 +9,6 @@ public class Subtraction extends Algorithm {
 
     @Override
     public BigDecimal calculator(BigDecimal first, BigDecimal second) {
-        return null;
+        return first.subtract(second);
     }
 }
