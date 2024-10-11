@@ -4,6 +4,7 @@ import me.xiaoying.calculator.algurment.*;
 import me.xiaoying.calculator.container.Container;
 import me.xiaoying.calculator.utils.NumberUtil;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 public class Calculator {
@@ -28,6 +29,10 @@ public class Calculator {
 
     public void registerAlgorithm(Algorithm algorithm) {
         Calculator.algorithms.put(algorithm.getKey(), algorithm);
+    }
+
+    public static Algorithm getAlgorithm(String key) {
+        return Calculator.algorithms.get(key);
     }
 
     public void registerSymbol(Symbol symbol) {
@@ -89,11 +94,32 @@ public class Calculator {
             numbers.add(number);
         }
 
-        for (CalculatorNumber calculatorNumber : numbers)
-            System.out.println(calculatorNumber.getNumber() + " " + calculatorNumber.getLeft().getKey() + " " + calculatorNumber.getRight().getKey());
+        if (numbers.isEmpty())
+            return "";
+
+        CalculatorNumber currencyNumber = numbers.get(0);
+        CalculatorNumber next;
+        Iterator<CalculatorNumber> iterator = numbers.iterator();
+        while (iterator.hasNext() && (next = iterator.next()) != null) {
+            if (currencyNumber == next)
+                continue;
+
+            if (!next.ready(currencyNumber)) {
+                currencyNumber = next;
+                continue;
+            }
+
+            CalculatorNumber calculatorNumber = new CalculatorNumber();
+            String symbol = "+";
+            BigDecimal result = Calculator.getAlgorithm(currencyNumber.getRight().getKey()).calculator(currencyNumber.getNumber(), next.getNumber());
+            if (result.doubleValue() < 0)
+                symbol = "-";
+
+            currencyNumber = calculatorNumber.initialize(Calculator.getSymbol(symbol)).initialize(result.doubleValue()).initialize(next.getRight());
+        }
 
         // handle container
 
-        return null;
+        return String.valueOf(currencyNumber.getNumber());
     }
 }
