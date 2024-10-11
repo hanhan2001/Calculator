@@ -38,7 +38,10 @@ public class CalculatorNumber {
         return this.right;
     }
 
-    public boolean ready() {
+    public boolean ready(CalculatorNumber number) {
+        if (number.getLeft().getPriorityLeft() > number.getRight().getPriorityRight())
+            return false;
+
         return this.left.getPriorityLeft() >= this.left.getPriorityRight();
     }
 
