@@ -90,36 +90,43 @@ public class Calculator {
         }
 
         if (stringBuilder.length() != 0 && NumberUtil.isInteger(stringBuilder.toString())) {
-            number.initialize(lastSymbol).initialize(Double.parseDouble(stringBuilder.toString())).initialize(Calculator.getSymbol("+"));
+            number.initialize(Double.parseDouble(stringBuilder.toString())).initialize(Calculator.getSymbol("+"));
             numbers.add(number);
         }
 
         if (numbers.isEmpty())
             return "";
 
-        CalculatorNumber currencyNumber = numbers.get(0);
-        CalculatorNumber next;
-        Iterator<CalculatorNumber> iterator = numbers.iterator();
-        while (iterator.hasNext() && (next = iterator.next()) != null) {
-            if (currencyNumber == next)
-                continue;
+        List<CalculatorNumber> newNumbers = new ArrayList<>();
+        CalculatorNumber currencyNumber = null;
+        for (int i = 0; i < numbers.size(); i++) {
+            CalculatorNumber _number = numbers.get(i);
 
-            if (!next.ready(currencyNumber)) {
-                currencyNumber = next;
+            if (currencyNumber == null) {
+                currencyNumber = _number;
                 continue;
             }
 
-            CalculatorNumber calculatorNumber = new CalculatorNumber();
-            String symbol = "+";
-            BigDecimal result = Calculator.getAlgorithm(currencyNumber.getRight().getKey()).calculator(currencyNumber.getNumber(), next.getNumber());
-            if (result.doubleValue() < 0)
-                symbol = "-";
+            if (!_number.ready(currencyNumber)) {
+                newNumbers.add(new CalculatorNumber().initialize(currencyNumber.getLeft()).initialize(currencyNumber.getNumber().doubleValue()).initialize(currencyNumber.getRight()));
+                currencyNumber = _number;
+                continue;
+            }
 
-            currencyNumber = calculatorNumber.initialize(Calculator.getSymbol(symbol)).initialize(result.doubleValue()).initialize(next.getRight());
+            BigDecimal result = Calculator.getAlgorithm(currencyNumber.getRight().getKey()).calculator(currencyNumber.getNumber(), _number.getNumber());
+            String symbol = result.doubleValue() >= 0 ? "+" : "-";
+            currencyNumber = new CalculatorNumber().initialize(Calculator.getSymbol(symbol)).initialize(result.doubleValue()).initialize(_number.getRight());
+
+            if (i == numbers.size() - 1 && !newNumbers.isEmpty()) {
+                numbers.clear();
+                numbers.addAll(newNumbers);
+                newNumbers.clear();
+                i = -1;
+            }
         }
 
         // handle container
 
-        return String.valueOf(currencyNumber.getNumber());
+        return currencyNumber.getNumber().toString();
     }
 }
