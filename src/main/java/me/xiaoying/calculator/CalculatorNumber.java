@@ -10,7 +10,7 @@ public class CalculatorNumber {
     private Symbol right = null;
 
     public CalculatorNumber initialize(double number) {
-        this.number = new BigDecimal(number);
+        this.number = BigDecimal.valueOf(number);
         return this;
     }
 
