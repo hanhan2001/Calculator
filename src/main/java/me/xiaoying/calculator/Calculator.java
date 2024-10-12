@@ -72,7 +72,10 @@ public class Calculator {
             String string = split[i];
 
             if (matchingType.equalsIgnoreCase("number") && (!NumberUtil.isDouble(string) && !string.equalsIgnoreCase("."))) {
-                number.initialize(Double.parseDouble(stringBuilder.toString()));
+                if (lastSymbol != null && lastSymbol.getKey().equalsIgnoreCase("-"))
+                    number.initialize(-Double.parseDouble(stringBuilder.toString()));
+                else
+                    number.initialize(Double.parseDouble(stringBuilder.toString()));
                 stringBuilder = new StringBuilder();
                 matchingType = "string";
                 i--;
@@ -91,6 +94,10 @@ public class Calculator {
         }
 
         if (stringBuilder.length() != 0 && NumberUtil.isDouble(stringBuilder.toString())) {
+            if (lastSymbol != null && lastSymbol.getKey().equalsIgnoreCase("-"))
+                number.initialize(-Double.parseDouble(stringBuilder.toString()));
+            else
+                number.initialize(Double.parseDouble(stringBuilder.toString()));
             number.initialize(Double.parseDouble(stringBuilder.toString())).initialize(Calculator.getSymbol("+"));
             numbers.add(number);
         }
