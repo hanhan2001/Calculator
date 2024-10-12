@@ -71,7 +71,7 @@ public class Calculator {
 
             String string = split[i];
 
-            if (matchingType.equalsIgnoreCase("number") && (!NumberUtil.isInteger(string) && !string.equalsIgnoreCase("."))) {
+            if (matchingType.equalsIgnoreCase("number") && (!NumberUtil.isDouble(string) && !string.equalsIgnoreCase("."))) {
                 number.initialize(Double.parseDouble(stringBuilder.toString()));
                 stringBuilder = new StringBuilder();
                 matchingType = "string";
@@ -79,7 +79,7 @@ public class Calculator {
                 continue;
             }
 
-            if (matchingType.equalsIgnoreCase("string") && NumberUtil.isInteger(string)) {
+            if (matchingType.equalsIgnoreCase("string") && NumberUtil.isDouble(string)) {
                 lastSymbol = Calculator.getSymbol(stringBuilder.toString());
                 stringBuilder = new StringBuilder();
                 number.initialize(lastSymbol);
@@ -90,13 +90,17 @@ public class Calculator {
             stringBuilder.append(string);
         }
 
-        if (stringBuilder.length() != 0 && NumberUtil.isInteger(stringBuilder.toString())) {
+        if (stringBuilder.length() != 0 && NumberUtil.isDouble(stringBuilder.toString())) {
             number.initialize(Double.parseDouble(stringBuilder.toString())).initialize(Calculator.getSymbol("+"));
             numbers.add(number);
         }
 
         if (numbers.isEmpty())
             return "";
+
+        for (CalculatorNumber calculatorNumber : numbers) {
+            System.out.println(calculatorNumber.getNumber());
+        }
 
         List<CalculatorNumber> newNumbers = new ArrayList<>();
         CalculatorNumber currencyNumber = null;
