@@ -98,10 +98,6 @@ public class Calculator {
         if (numbers.isEmpty())
             return "";
 
-        for (CalculatorNumber calculatorNumber : numbers) {
-            System.out.println(calculatorNumber.getNumber());
-        }
-
         List<CalculatorNumber> newNumbers = new ArrayList<>();
         CalculatorNumber currencyNumber = null;
         for (int i = 0; i < numbers.size(); i++) {
