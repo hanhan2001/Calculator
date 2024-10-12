@@ -9,6 +9,6 @@ public class Multiplication extends Algorithm {
 
     @Override
     public BigDecimal calculator(BigDecimal first, BigDecimal second) {
-        return null;
+        return first.multiply(second);
     }
 }
