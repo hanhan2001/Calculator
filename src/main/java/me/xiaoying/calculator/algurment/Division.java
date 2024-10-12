@@ -9,6 +9,9 @@ public class Division extends Algorithm {
 
     @Override
     public BigDecimal calculator(BigDecimal first, BigDecimal second) {
-        return null;
+        if (second.doubleValue() == 0)
+            return new BigDecimal(0);
+
+        return first.divide(second);
     }
 }
