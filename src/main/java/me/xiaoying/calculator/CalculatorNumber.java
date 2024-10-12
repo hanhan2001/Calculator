@@ -42,7 +42,7 @@ public class CalculatorNumber {
         if (number.getLeft().getPriorityLeft() > number.getRight().getPriorityRight())
             return false;
 
-        return this.left.getPriorityLeft() >= this.left.getPriorityRight();
+        return this.left.getPriorityLeft() >= this.right.getPriorityRight();
     }
 
     /**
