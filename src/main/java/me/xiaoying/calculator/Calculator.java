@@ -18,6 +18,7 @@ public class Calculator {
         this.registerAlgorithm(new Subtraction());
         this.registerAlgorithm(new Multiplication());
         this.registerAlgorithm(new Division());
+        this.registerAlgorithm(new Power());
 
         // symbols
         this.registerSymbol(new Symbol("+", 1, 1));
@@ -101,6 +102,10 @@ public class Calculator {
         CalculatorNumber currencyNumber = null;
         for (int i = 0; i < numbers.size(); i++) {
             CalculatorNumber _number = numbers.get(i);
+//            System.out.println(_number.getNumber() + " " + _number.getLeft().getKey() + " " + _number.getRight().getKey());
+
+            if (currencyNumber == _number)
+                continue;
 
             if (currencyNumber == null) {
                 currencyNumber = _number;
@@ -120,7 +125,9 @@ public class Calculator {
             if (i == numbers.size() - 1 && !newNumbers.isEmpty()) {
                 numbers.clear();
                 numbers.addAll(newNumbers);
+                numbers.add(new CalculatorNumber().initialize(currencyNumber.getLeft()).initialize(currencyNumber.getNumber().doubleValue()).initialize(currencyNumber.getRight()));
                 newNumbers.clear();
+                currencyNumber = numbers.get(0);
                 i = -1;
             }
         }
