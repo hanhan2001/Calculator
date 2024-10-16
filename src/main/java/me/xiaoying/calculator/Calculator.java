@@ -49,7 +49,7 @@ public class Calculator {
         Calculator.containers.put(container.getEnd(), container);
     }
 
-    public String calculator(String content) {
+    public BigDecimal calculator(String content) {
         content = content.replace(" ", "").replace("̀\u3000", "");
 
         StringBuilder stringBuilder = new StringBuilder();
@@ -103,7 +103,7 @@ public class Calculator {
         }
 
         if (numbers.isEmpty())
-            return "";
+            return BigDecimal.ZERO;
 
         List<CalculatorNumber> newNumbers = new ArrayList<>();
         CalculatorNumber currencyNumber = null;
@@ -141,6 +141,6 @@ public class Calculator {
 
         // handle container
 
-        return currencyNumber.getNumber().toString();
+        return currencyNumber.getNumber();
     }
 }
