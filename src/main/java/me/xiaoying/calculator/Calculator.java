@@ -109,7 +109,6 @@ public class Calculator {
         CalculatorNumber currencyNumber = null;
         for (int i = 0; i < numbers.size(); i++) {
             CalculatorNumber _number = numbers.get(i);
-//            System.out.println(_number.getNumber() + " " + _number.getLeft().getKey() + " " + _number.getRight().getKey());
 
             if (currencyNumber == _number)
                 continue;
