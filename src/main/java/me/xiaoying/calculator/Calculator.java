@@ -19,12 +19,14 @@ public class Calculator {
         this.registerAlgorithm(new Multiplication());
         this.registerAlgorithm(new Division());
         this.registerAlgorithm(new Power());
+        this.registerAlgorithm(new Remainder());
 
         // symbols
         this.registerSymbol(new Symbol("+", 1, 1));
         this.registerSymbol(new Symbol("-", 1, 1));
         this.registerSymbol(new Symbol("*", 2, 2));
         this.registerSymbol(new Symbol("/", 2, 2));
+        this.registerSymbol(new Symbol("%", 2, 2));
         this.registerSymbol(new Symbol("^", 2, 3));
     }
 
