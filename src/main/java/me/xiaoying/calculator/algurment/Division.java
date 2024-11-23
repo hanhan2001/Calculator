@@ -1,6 +1,7 @@
 package me.xiaoying.calculator.algurment;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class Division extends Algorithm {
     public Division() {
@@ -12,6 +13,6 @@ public class Division extends Algorithm {
         if (second.doubleValue() == 0)
             return new BigDecimal(0);
 
-        return first.divide(second);
+        return first.divide(second, 10, RoundingMode.DOWN);
     }
 }
