@@ -75,9 +75,9 @@ public class Calculator {
 
             if (matchingType.equalsIgnoreCase("number") && (!NumberUtil.isDouble(string) && !string.equalsIgnoreCase("."))) {
                 if (lastSymbol != null && lastSymbol.getKey().equalsIgnoreCase("-"))
-                    number.initialize(-Double.parseDouble(stringBuilder.toString()));
+                    number.initialize(BigDecimal.valueOf(-Double.parseDouble(stringBuilder.toString())));
                 else
-                    number.initialize(Double.parseDouble(stringBuilder.toString()));
+                    number.initialize(BigDecimal.valueOf(Double.parseDouble(stringBuilder.toString())));
                 stringBuilder = new StringBuilder();
                 matchingType = "string";
                 i--;
@@ -97,10 +97,10 @@ public class Calculator {
 
         if (stringBuilder.length() != 0 && NumberUtil.isDouble(stringBuilder.toString())) {
             if (lastSymbol != null && lastSymbol.getKey().equalsIgnoreCase("-"))
-                number.initialize(-Double.parseDouble(stringBuilder.toString()));
+                number.initialize(BigDecimal.valueOf(-Double.parseDouble(stringBuilder.toString())));
             else
-                number.initialize(Double.parseDouble(stringBuilder.toString()));
-            number.initialize(Double.parseDouble(stringBuilder.toString())).initialize(Calculator.getSymbol("+"));
+                number.initialize(BigDecimal.valueOf(Double.parseDouble(stringBuilder.toString())));
+            number.initialize(BigDecimal.valueOf(Double.parseDouble(stringBuilder.toString()))).initialize(Calculator.getSymbol("+"));
             numbers.add(number);
         }
 
@@ -121,19 +121,19 @@ public class Calculator {
             }
 
             if (!_number.ready(currencyNumber)) {
-                newNumbers.add(new CalculatorNumber().initialize(currencyNumber.getLeft()).initialize(currencyNumber.getNumber().doubleValue()).initialize(currencyNumber.getRight()));
+                newNumbers.add(new CalculatorNumber().initialize(currencyNumber.getLeft()).initialize(currencyNumber.getNumber()).initialize(currencyNumber.getRight()));
                 currencyNumber = _number;
                 continue;
             }
 
             BigDecimal result = Calculator.getAlgorithm(currencyNumber.getRight().getKey()).calculator(currencyNumber.getNumber(), _number.getNumber());
             String symbol = result.doubleValue() >= 0 ? "+" : "-";
-            currencyNumber = new CalculatorNumber().initialize(Calculator.getSymbol(symbol)).initialize(result.doubleValue()).initialize(_number.getRight());
+            currencyNumber = new CalculatorNumber().initialize(Calculator.getSymbol(symbol)).initialize(result).initialize(_number.getRight());
 
             if (i == numbers.size() - 1 && !newNumbers.isEmpty()) {
                 numbers.clear();
                 numbers.addAll(newNumbers);
-                numbers.add(new CalculatorNumber().initialize(currencyNumber.getLeft()).initialize(currencyNumber.getNumber().doubleValue()).initialize(currencyNumber.getRight()));
+                numbers.add(new CalculatorNumber().initialize(currencyNumber.getLeft()).initialize(currencyNumber.getNumber()).initialize(currencyNumber.getRight()));
                 newNumbers.clear();
                 currencyNumber = numbers.get(0);
                 i = -1;

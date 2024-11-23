@@ -9,8 +9,8 @@ public class CalculatorNumber {
     private Symbol left = null;
     private Symbol right = null;
 
-    public CalculatorNumber initialize(double number) {
-        this.number = BigDecimal.valueOf(number);
+    public CalculatorNumber initialize(BigDecimal number) {
+        this.number = number;
         return this;
     }
 
